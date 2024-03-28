@@ -1,0 +1,89 @@
+// cube.cpp
+#pragma once
+
+#include "../include/cube.hpp"
+#include <GL/glut.h>
+#include <vector>
+
+Box::Box(Vector pos, Vector size) : pos(pos), size(size) {};
+
+bool Box::overlaps(Box* box) {
+    // assumes 2d world, omitting z axis from collision
+    return (
+            pos.x < box->pos.x + box->size.x &&
+            pos.x + size.x > box->pos.x &&
+            pos.y < box->pos.y + box->size.y &&
+            pos.y + size.y > box->pos.y
+            );
+}
+
+Cube::Cube(Vector pos, Vector size) : Box(pos, size) {
+};
+
+// render
+void Cube::render() {
+    Vector min = pos;
+    Vector max = pos.plus(size);
+    glBegin(GL_QUADS);
+    glColor3f(color.x, color.y, color.z);
+    glVertex3f(max.x, max.y, min.z);
+    glVertex3f(min.x, max.y, min.z);
+    glVertex3f(min.x, max.y, max.z);
+    glVertex3f(max.x, max.y, max.z);
+
+    glVertex3f(max.x, min.y, max.z);
+    glVertex3f(min.x, min.y, max.z);
+    glVertex3f(min.x, min.y, min.z);
+    glVertex3f(max.x, min.y, min.z);
+
+    glVertex3f(max.x, max.y, max.z);
+    glVertex3f(min.x, max.y, max.z);
+    glVertex3f(min.x, min.y, max.z);
+    glVertex3f(max.x, min.y, max.z);
+
+    glVertex3f(max.x, min.y, min.z);
+    glVertex3f(min.x, min.y, min.z);
+    glVertex3f(min.x, max.y, min.z);
+    glVertex3f(max.x, max.y, min.z);
+
+    glVertex3f(min.x, max.y, max.z);
+    glVertex3f(min.x, max.y, min.z);
+    glVertex3f(min.x, min.y, min.z);
+    glVertex3f(min.x, min.y, max.z);
+
+    glVertex3f(max.x, max.y, min.z);
+    glVertex3f(max.x, max.y, max.z);
+    glVertex3f(max.x, min.y, max.z);
+    glVertex3f(max.x, min.y, min.z);
+    glEnd();
+}
+
+Wall::Wall(Vector pos, Vector size) : Cube(pos, size) {
+    color = Vector(0.0f, 0.0f, 1.0f);
+}
+
+Pellet::Pellet(Vector pos, Vector size) : Cube(pos, size) {}
+
+const int maxDepth = 3;
+
+Node::Node(Vector pos, Vector size, int depth): Box(pos, size) {
+    if (depth < 3) {
+        Vector newSize = size.divBy(2.0f);
+        children[0] = new Node(pos, newSize, depth + 1);
+        children[1] = new Node(Vector(pos.x / 2, pos.y, pos.z), newSize, depth + 1);
+        children[2] = new Node(Vector(pos.x, pos.y / 2, pos.z), newSize, depth + 1);
+        children[3] = new Node(pos.divBy(2.0f), newSize, depth + 1);
+    } else {
+        leaf = true;
+    }
+};
+
+Node::~Node() {
+    if (!leaf) {
+        for (Node* node : children) {
+            delete node;
+        }
+    }
+}
+
+
