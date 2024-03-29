@@ -2,6 +2,7 @@
 #pragma once
 
 #include "../include/pacman.hpp"
+#include "sound.cpp"
 
 Pacman::Pacman(Vector pos, void (*restart)(void)) : Cube(pos, Vector(1.3f, 1.3f, 1.3f)), restart(restart) {
     color = new Vector(1.0f, 0.81f, 0.03f);
@@ -16,21 +17,18 @@ void Pacman::update() {
     }
 
     // move
-    if (poweredTimer > 0) {
-        pos = pos.plus(vel.mulBy(altSpeed));
-    } else {
-        pos = pos.plus(vel.mulBy(speed));
-    }
+    pos = pos.plus(vel.mulBy(speed));
 
     // check collisions
     for (Cube* wall : walls) {
         while(overlaps(wall)) {
-            pos = (poweredTimer > 0) ? pos.minus(vel.mulBy(altSpeed)) : pos.minus(vel.mulBy(speed));
+            pos = pos.minus(vel.mulBy(speed));
         }
     }
 
     for (Pellet* pellet : pellets) {
         if (overlaps(pellet)) {
+            char* filePath;
             switch (pellet->pickup()) { // deleting doesnt save much space while making working with the array difficult in other areas of code. true means we are picking up a powerup, false means we are picking up a regular pellet
                 case 0:
                     break;

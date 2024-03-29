@@ -11,7 +11,4 @@ make
 
 ## TO-DO
 - fix/cleanup file structure
-- slow down everyone to more accurate speeds
-- double check powerup duration (I think it's higher than 20seconds atm)
-- add sounds
-- add pauses at death and start
+- add more sounds

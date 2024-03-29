@@ -12,6 +12,7 @@ Cube* walls[54];
 Pellet* pellets[246]; // INITIALLY this was a vector, and that would work better for a more adaptable code, but arrays have better performance and there is only one level anyways.
 Ghost* ghosts[4];
 
+
 void populateArea(Vector min, Vector max);
 
 void restart();
@@ -26,8 +27,12 @@ void render();
 
 void onKeyInput(unsigned char key, int x, int y);
 
+void onSpecialKeyInput(int key, int x, int y);
+
 void display();
 
 void glSettings();
 
 void onReshape(GLsizei width, GLsizei height);
+
+void checkWin();

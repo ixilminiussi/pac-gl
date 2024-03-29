@@ -2,8 +2,10 @@
 #pragma once
 
 #include "../include/cube.hpp"
+#include "game.cpp"
 #include <GL/freeglut.h>
 #include <vector>
+#include <thread>
 
 Vector wallColor = Vector(0.0f, 0.0f, 1.0f);
 
@@ -75,6 +77,7 @@ int Pellet::pickup() {
     if (picked) return 0;
 
     picked = true;
+    checkWin();
     return 1;
 }
 
@@ -86,6 +89,7 @@ int PowerUp::pickup() {
     if (picked) return 0;
 
     picked = true;
+    checkWin();
     return 2;
 }
 

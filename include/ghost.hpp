@@ -11,8 +11,7 @@ class Ghost : public Cube {
         DIRECTION dir = NONE;
         Vector vel;
         Vector respawnPos = Vector(-0.7f, -0.1f, 0.0f);
-        float speed = 0.08f;
-        float altSpeed = 0.06f;
+        float speed = 0.05f;
         float iq;
         int leewayTime = 8; // used for the opposite purpose here
         int leewayTimer = 0;

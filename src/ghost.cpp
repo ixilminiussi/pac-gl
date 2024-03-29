@@ -3,6 +3,7 @@
 
 #include "../include/ghost.hpp"
 #include "wait.cpp"
+#include "sound.cpp"
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -20,8 +21,8 @@ Ghost::Ghost(Vector pos, Vector* color, float iq) : Cube(pos, Vector(1.4f, 1.4f,
 void Ghost::die(int score) {
     deadFrame = score;
     ::render();
-    wait(600); 
     respawn();
+    wait(1000);
 }
 
 void Ghost::respawn() {
@@ -38,12 +39,12 @@ void Ghost::update() {
         turn(pickDirection());
     }
 
+    pos = pos.plus(vel.mulBy(speed));
+
     if (!vulnerable) {
         color = regularColor;
-        pos = pos.plus(vel.mulBy(speed));
     } else {
         color = altColor;
-        pos = pos.plus(vel.mulBy(altSpeed));
     }
 
 
@@ -65,7 +66,7 @@ void Ghost::render() {
         glDepthFunc(GL_ALWAYS);
         glTranslatef(pos.x, pos.y + 0.2f, 1.41f);
         glScalef(0.006f, 0.006f, 1.0f);
-        glColor3f(1.0f, 1.0f, 1.0f);
+        glColor3f(0.0f, 1.0f, 0.0f);
         glLineWidth(5.0f);
         glutStrokeString(GLUT_STROKE_ROMAN, (const unsigned char*)(std::to_string(deadFrame)).c_str());
         glDepthFunc(GL_LEQUAL);

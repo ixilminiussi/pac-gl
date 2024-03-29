@@ -1,7 +1,7 @@
 // main.cpp
-#include "./game.cpp"
-#include "./pacman.cpp"
-#include "./cube.cpp"
+#include "game.cpp"
+#include "pacman.cpp"
+#include "cube.cpp"
 #include <vector>
 
 #define WIDTH 900
@@ -10,8 +10,8 @@
 #define FRAME_TIMER 16 // ~60fps
 
 void display() {
-    update();
     render();
+    update();
 }
 
 void clock(int value) {
@@ -37,6 +37,7 @@ void glSettings() {
     glShadeModel(GL_SMOOTH);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     glutKeyboardFunc(onKeyInput);
+    glutSpecialFunc(onSpecialKeyInput);
 }
 
 int main(int argc, char **argv) {
@@ -50,6 +51,8 @@ int main(int argc, char **argv) {
     glSettings();
     init();
     glutTimerFunc(0, clock, 0);
+    glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
     glutMainLoop();
+    alutWrapUp();
     return 0;
 }

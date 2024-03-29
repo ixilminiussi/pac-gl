@@ -1,15 +1,16 @@
 // game.cpp
 #pragma once
-
 #include "../include/game.hpp"
+#include "sound.cpp"
 #include "ghost.cpp"
 #include <iostream>
 
 const float depth = -30.0f;
 
 unsigned int score = 0;
-
 int lives = 3;
+
+bool starting, restarting, ending;
 
 unsigned int wallIndex = 0; // used to populate walls
 unsigned int pelletIndex = 0; // used to populate pellets
@@ -45,24 +46,24 @@ void populateArea(Vector min, Vector max) {
 }
 
 void restart() {
+    restarting = true; // calling render() out of order simply doesnt work
+                    
     lives --;
 
     if (lives == 0) {
         exit(1);
     }
-
-    Ghost* dumbGhost = new Ghost(Vector(0.0f, 0.0f, -1000.0f), new Vector(0.0f, 0.0f, 0.0f), 0.0f);
-    for (Ghost* ghost : ghosts) {
-        ghost = dumbGhost;
-    }
-
-    render();
-    wait(1000);
+    wait(700);
+    playSound("assets/pacman_death.wav", true);
+    wait(200);
 
     start();
+    starting = false;
 };
 
 void start() {
+    starting = true;
+
     pacman = new Pacman(Vector(-0.65f, -7.0f, 0.0f), &restart);
     ghosts[0] = new Ghost(Vector(-0.7f, -2.3f, 0.0f), new Vector(1.0f, 0.0f, 0.0f), 0.80f);
     ghosts[1] = new Ghost(Vector(-0.7f, -0.1f, 0.0f), new Vector(1.0f, 0.72f, 0.28f), 0.60f);
@@ -71,6 +72,7 @@ void start() {
 }
 
 void init() {
+    alutInit();
     // create walls
     walls[wallIndex++] = new Cube(Vector(-11.2f, 12.0f,  0.0f), Vector(22.4f, 0.4f, 2.0f));
     walls[wallIndex++] = new Cube(Vector(-0.4f,  8.8f,   0.0f), Vector(0.8f,  3.2f, 2.0f));
@@ -139,10 +141,12 @@ void init() {
     populateArea(Vector(-6.1f, -3.3f, 0.0f), Vector(-5.9f, 4.9f, 0.0f));
     populateArea(Vector(5.9f, -3.3f, 0.0f), Vector(6.1f, 4.9f, 0.0f));
 
+
     start();
 }
 
 void update() {
+    if (ending) return;
     if (poweredTimer > 0) {
         poweredTimer --;
         if (poweredTimer == 0) {
@@ -206,6 +210,7 @@ void render() {
     glPopMatrix();
 
     //BOTTOM bar
+    glPushMatrix();
     glTranslatef(7.0f, -12.0f, 0.0f);
     glColor4f(1.0f, 0.81f, 0.03f, 1.0f);
     for (int i = 0; i < lives; i ++) {
@@ -216,9 +221,33 @@ void render() {
         glVertex2f(0.0f - (i * 2), 0.0f);
         glEnd();
     }
+    glPopMatrix();
+
+    // END SCREEN
+    if (ending) {
+        glTranslatef(-6.2f, -1.0f, 0.0f);
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        glScalef(0.03f, 0.03f, 1.0f);
+        glLineWidth(20.0f);
+        glutStrokeString(GLUT_STROKE_ROMAN, (const unsigned char*)"BRAVO");
+    }
 
     glPopMatrix();
     glutSwapBuffers();
+
+    if (ending) {
+        wait(2000);
+        exit(EXIT_SUCCESS);
+    }
+
+    if (starting) {
+        playSound("assets/pacman_beginning.wav", true);
+        starting = false;
+    }
+    if (restarting) {
+        wait(1000);
+        restarting = false;
+    }
 }
 
 void onKeyInput(unsigned char key, int x, int y) {
@@ -226,10 +255,10 @@ void onKeyInput(unsigned char key, int x, int y) {
         case 27: // ESC
             exit(0);
             break;
-        case 'w':
+        case 'z':
             pacman->goUp();
             break;
-        case 'a':
+        case 'q':
             pacman->goLeft();
             break;
         case 's':
@@ -241,3 +270,33 @@ void onKeyInput(unsigned char key, int x, int y) {
     }
 }
 
+void onSpecialKeyInput(int key, int x, int y) {
+    switch(key) {
+        case GLUT_KEY_UP:
+            pacman->goUp();
+            break;
+        case GLUT_KEY_LEFT:
+            pacman->goLeft();
+            break;
+        case GLUT_KEY_DOWN:
+            pacman->goDown();
+            break;
+        case GLUT_KEY_RIGHT:
+            pacman->goRight();
+            break;
+    }
+}
+
+void endGame() {
+    ending = true;
+}
+
+void checkWin() {
+    for (Pellet* pellet : pellets) {
+        if (!pellet->picked) {
+            return;
+        }
+    }
+
+    endGame();
+}
