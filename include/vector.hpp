@@ -8,23 +8,58 @@ struct Vector {
     Vector(float x, float y, float z) : x(x), y(y), z(z){};
     Vector() : Vector(0, 0, 0) {};
 
+    Vector(Vector const& vector) = default;
     ~Vector() = default;
 
-    Vector plus(Vector toAdd) {
-        return Vector(x + toAdd.x, y + toAdd.y, z + toAdd.z);
-    };
+    Vector& operator=(Vector const& v) = default;
 
-    Vector minus(Vector toSub) {
-        return Vector(x - toSub.x, y - toSub.y, z - toSub.z);
-    };
+    Vector operator-() const {
+        return Vector(-x,-y,-z);
+    }
 
-    Vector divBy(float toDiv) {
-        return Vector(x / toDiv, y / toDiv, z / toDiv);
-    };
+    void operator+=(Vector const& v) {
+        x += v.x;
+        y += v.y;
+        z += v.z;
+    }
 
-    Vector mulBy(float toMul) {
-        return Vector(x * toMul, y * toMul, z * toMul);
-    };
+    void operator/=(float f) {
+        x /= f;
+        y /= f;
+        z /= f;
+    }
+
+    void operator*=(float f) {
+        x *= f;
+        y *= f;
+        z *= f;
+    }
+
+    void operator-=(Vector const& v) {
+        *this += -v;
+    }
 };
+
+inline Vector operator+(Vector const& v1, Vector const& v2) {
+  Vector v(v1);
+  v += v2;
+  return v;
+}
+
+inline Vector operator-(Vector const& v1, Vector const& v2) {
+  Vector v(v1);
+  v -= v2;
+  return v;
+}
+
+inline Vector operator*(Vector const& v1, float f) {
+  Vector v(v1);
+  v *= f;
+  return v;
+}
+
+inline Vector operator*(float f, Vector const& v1) {
+  return v1*f;
+}
 
 #endif

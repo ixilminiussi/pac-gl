@@ -39,7 +39,7 @@ void Ghost::update() {
         turn(pickDirection());
     }
 
-    pos = pos.plus(vel.mulBy(speed));
+    pos += vel * speed;
 
     if (!vulnerable) {
         color = regularColor;

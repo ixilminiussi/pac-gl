@@ -14,7 +14,7 @@ Cube::Cube(Vector pos, Vector size) : pos(pos), size(size) {
 // render
 void Cube::render() {
     Vector min = pos;
-    Vector max = pos.plus(size);
+    Vector max = pos + size;
     glBegin(GL_QUADS);
     glColor3f(color->x, color->y, color->z);
     glVertex3f(max.x, max.y, min.z);

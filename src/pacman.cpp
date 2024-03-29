@@ -19,12 +19,12 @@ void Pacman::update() {
     }
 
     // move
-    pos = pos.plus(vel.mulBy(speed));
+    pos += vel * speed;
 
     // check collisions
     for (Cube* wall : walls) {
         while(overlaps(wall)) {
-            pos = pos.minus(vel.mulBy(speed));
+            pos -= vel * speed;
         }
     }
 
