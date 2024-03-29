@@ -4,6 +4,7 @@
 
 #include <GL/freeglut.h>
 #include <vector>
+#include <list>
 
 #include "vector.hpp"
 #include "pacman.hpp"
@@ -35,7 +36,7 @@ class Labyrinth {
 
         Pacman pacman;
         std::vector<Cube> walls;
-        std::vector<Pellet> pellets;
+        std::list<Pellet> pellets;
         std::vector<Ghost> ghosts;
 
         void restart();

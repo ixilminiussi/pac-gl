@@ -18,10 +18,13 @@ void Labyrinth::populateArea(Vector min, Vector max) {
             }
         }
         // first 4 are powerups
-        for (int i = 0; i < 4; i ++) {
-            if (pellet.overlaps(pellets[i])) {
+        int count = 4;
+        for (Pellet &p : pellets) {
+            count --;
+            if (pellet.overlaps(p)) {
                 return true;
             }
+            if (count == 0) return false;
         }
         return false;
     };

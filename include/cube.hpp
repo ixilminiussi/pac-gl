@@ -26,7 +26,6 @@ class Pellet : public Cube {
         unsigned int flag; // 0 for pellet, 1 for powerup
         Pellet(Vector const& pos, unsigned int flag);
         ~Pellet() = default;
-        void pickup();
 };
 
 DIRECTION getOpposite(DIRECTION dir);

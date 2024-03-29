@@ -68,10 +68,6 @@ Pellet::Pellet(Vector const& pos, unsigned int flag) : Cube(pos, Vector(0.2f, 0.
     }
 }
 
-void Pellet::pickup() {
-    delete this;
-}
-
 DIRECTION getOpposite(DIRECTION dir) {
     switch(dir) {
         case UP:

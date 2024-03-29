@@ -28,7 +28,8 @@ void Pacman::update() {
         }
     }
 
-    for (auto it = labyrinth.pellets.begin(); it != labyrinth.pellets.end(); ++it) {
+    auto it = labyrinth.pellets.begin();
+    while (it != labyrinth.pellets.end()) {
         if (overlaps(*it)) {
             if (it->flag) {
                 score += 50;
@@ -37,7 +38,9 @@ void Pacman::update() {
             } else {
                 score += 10;
             }
-            labyrinth.pellets.erase(it);
+            it = labyrinth.pellets.erase(it);
+        } else {
+            it ++;
         }
     }
 
