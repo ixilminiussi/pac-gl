@@ -33,18 +33,19 @@ void Pacman::update() {
         if (overlaps(*it)) {
             if (it->flag) {
                 score += 50;
-                multiplier += 1;
+                multiplier = 1;
                 labyrinth.powerup();
             } else {
                 score += 10;
             }
             it = labyrinth.pellets.erase(it);
+            labyrinth.checkWin();
         } else {
             it ++;
         }
     }
 
-    for (Ghost ghost : labyrinth.ghosts) {
+    for (Ghost &ghost : labyrinth.ghosts) {
         if (overlaps(ghost)) {
             if (ghost.vulnerable) {
                 score += 200 * multiplier;

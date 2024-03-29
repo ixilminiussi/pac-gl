@@ -12,7 +12,7 @@
  */
 void Labyrinth::populateArea(Vector min, Vector max) {
     auto overlapsWorld = [&](Pellet const& pellet) {
-        for (Cube wall : walls) {
+        for (Cube &wall : walls) {
             if (pellet.overlaps(wall)) {
                 return true;
             }
@@ -145,7 +145,7 @@ void Labyrinth::update() {
         poweredTimer --;
         if (poweredTimer == 0) {
             pacman.powered = false;
-            for (Ghost ghost : ghosts) {
+            for (Ghost &ghost : ghosts) {
                 ghost.vulnerable = false;
             }
         }
@@ -153,7 +153,7 @@ void Labyrinth::update() {
 
     pacman.update();
 
-    for (Ghost ghost : ghosts) {
+    for (Ghost &ghost : ghosts) {
         ghost.update();
     }
 }
@@ -168,15 +168,15 @@ void Labyrinth::render() {
 
     pacman.render();
 
-    for (Cube wall : walls) {
+    for (Cube &wall : walls) {
         wall.render();
     }
 
-    for (Pellet pellet : pellets) {
+    for (Pellet &pellet : pellets) {
         pellet.render();
     }
 
-    for (Ghost ghost : ghosts) {
+    for (Ghost &ghost : ghosts) {
         ghost.render();
     }
 
@@ -285,7 +285,7 @@ bool Labyrinth::shootRay(Cube rayCube, DIRECTION dir, float dist) {
             break;
     }
 
-    for (Cube wall : walls) {
+    for (Cube &wall : walls) {
         if (rayCube.overlaps(wall)) {
             return true;
         }
@@ -299,13 +299,14 @@ void Labyrinth::endGame() {
 }
 
 void Labyrinth::checkWin() {
+    std::cout << "checkwin" << std::endl;
     if (pellets.size() == 0) { endGame(); }
 }
 
 void Labyrinth::powerup() {
     poweredTimer = poweredTime;
     pacman.powered = true;
-    for (Ghost ghost : ghosts) {
+    for (Ghost &ghost : ghosts) {
         ghost.vulnerable = true;
     }
 }

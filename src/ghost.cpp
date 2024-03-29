@@ -92,12 +92,11 @@ bool Ghost::atIntersection() {
 DIRECTION Ghost::pickDirection() {
     Labyrinth &labyrinth = Labyrinth::getInstance();
 
-    std::vector<DIRECTION> possibilities = { UP, LEFT, RIGHT, DOWN };
+    std::vector<DIRECTION> possibilities;
 
-    // remove all obstructed directions;
-    for (auto it = possibilities.end(); it != possibilities.begin(); --it) {
-        if (labyrinth.shootRay(Cube(pos, size), *it, 1.0f)) {
-            possibilities.erase(it);
+    for(DIRECTION dir : {UP,DOWN,RIGHT,LEFT}) {
+        if (!labyrinth.shootRay(Cube(pos, size), dir, 1.0f)) {
+            possibilities.push_back(dir);
         }
     }
 
