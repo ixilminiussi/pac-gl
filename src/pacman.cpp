@@ -1,8 +1,10 @@
 // pacman.cpp
-#pragma once
+#include "pacman.hpp"
+#include "sound.hpp"
+#include "game.hpp"
 
-#include "../include/pacman.hpp"
-#include "sound.cpp"
+float poweredTime = 1250;
+float poweredTimer = 0;
 
 Pacman::Pacman(Vector pos, void (*restart)(void)) : Cube(pos, Vector(1.3f, 1.3f, 1.3f)), restart(restart) {
     color = new Vector(1.0f, 0.81f, 0.03f);

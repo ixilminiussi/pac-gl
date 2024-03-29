@@ -1,14 +1,12 @@
 // pacman.hpp
-#pragma once
+#if !defined(PACMAN_HPP)
+#define PACMAN_HPP
 
 #include "vector.hpp"
 #include "cube.hpp"
-#include "ghost.hpp"
-#include <AL/al.h>
-#include <AL/alc.h>
 
-float poweredTimer;
-float poweredTime = 1250; 
+extern float poweredTimer;
+extern float poweredTime; 
 
 class Pacman : public Cube {
     private:
@@ -35,3 +33,5 @@ class Pacman : public Cube {
         void goUp();
         void goDown();
 };
+
+#endif

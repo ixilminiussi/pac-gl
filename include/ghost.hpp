@@ -1,8 +1,9 @@
 // ghost.hpp
-#pragma once
+#if !defined(GHOST_HPP)
+#define GHOST_HPP
 
-#include "./vector.hpp"
-#include "./cube.hpp"
+#include "vector.hpp"
+#include "cube.hpp"
 
 class Ghost : public Cube {
     private:
@@ -30,3 +31,5 @@ class Ghost : public Cube {
         void die(int score);
         void respawn();
 };
+
+#endif

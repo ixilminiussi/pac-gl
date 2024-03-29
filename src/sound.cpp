@@ -1,11 +1,11 @@
 // sound.cpp
-#pragma once
-
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <AL/alut.h>
 #include <stdio.h>
 #include <iostream>
+
+#include "sound.hpp"
 
 ALuint buffer, source;
 ALint state;

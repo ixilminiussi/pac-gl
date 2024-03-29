@@ -1,8 +1,8 @@
 // cube.hpp
-#pragma once
+#if !defined(CUBE_HPP)
+#define CUBE_HPP
 
 #include "vector.hpp"
-#include "game.hpp"
 #include <vector>
 
 enum DIRECTION { NONE, UP, LEFT, DOWN, RIGHT };
@@ -37,3 +37,4 @@ struct PowerUp : Pellet {
 bool shootRay(Cube rayCube, DIRECTION dir, float dist);
 DIRECTION getOpposite(DIRECTION dir);
 std::pair<DIRECTION, DIRECTION> getSides(DIRECTION dir);
+#endif

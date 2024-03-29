@@ -10,5 +10,8 @@ make
 ```
 
 ## TO-DO
-- fix/cleanup file structure
 - add more sounds
+- change to vector
+- create powerup flag, remove powerup class and use vector of ref
+- create game class with static vars
+- make singleton class for labyrinth 

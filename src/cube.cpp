@@ -1,11 +1,9 @@
 // cube.cpp
-#pragma once
-
-#include "../include/cube.hpp"
-#include "game.cpp"
 #include <GL/freeglut.h>
 #include <vector>
-#include <thread>
+
+#include "cube.hpp"
+#include "game.hpp"
 
 Vector wallColor = Vector(0.0f, 0.0f, 1.0f);
 

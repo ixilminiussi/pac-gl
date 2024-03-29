@@ -1,14 +1,14 @@
 // ghost.cpp
-#pragma once
-
-#include "../include/ghost.hpp"
-#include "wait.cpp"
-#include "sound.cpp"
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <ctime>
 #include <cmath>
+
+#include "ghost.hpp"
+#include "game.hpp"
+#include "wait.hpp"
+#include "sound.hpp"
 
 Ghost::Ghost(Vector pos, Vector* color, float iq) : Cube(pos, Vector(1.4f, 1.4f, 1.4f)), iq(iq) {
     Cube::color = color;

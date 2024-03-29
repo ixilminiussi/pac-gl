@@ -1,12 +1,19 @@
 // game.cpp
-#pragma once
-#include "../include/game.hpp"
-#include "sound.cpp"
-#include "ghost.cpp"
 #include <iostream>
+#include <memory>
+
+#include "game.hpp"
+#include "sound.hpp"
+#include "pacman.hpp"
+#include "ghost.hpp"
+#include "wait.hpp"
+
+Pacman* pacman;
+Cube* walls[54];
+Pellet* pellets[246]; // INITIALLY this was a vector, and that would work better for a more adaptable code, but arrays have better performance and there is only one level anyways.
+Ghost* ghosts[4];
 
 const float depth = -30.0f;
-
 unsigned int score = 0;
 int lives = 3;
 
@@ -36,10 +43,10 @@ void populateArea(Vector min, Vector max) {
 
     for (float x = min.x; x < max.x; x += 0.8f) {
         for (float y = min.y; y < max.y; y += 0.8f) {
-            Pellet* pellet = new Pellet(Vector(x, y, 0.0f));
+            std::unique_ptr<Pellet> pellet = std::make_unique<Pellet>(Vector(x, y, 0.0f)); 
 
-            if (!overlapsWorld(pellet)) {
-                pellets[pelletIndex++] = pellet;
+            if (!overlapsWorld(pellet.get())) {
+                pellets[pelletIndex++] = pellet.release();
             }
         }
     }

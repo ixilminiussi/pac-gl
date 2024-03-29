@@ -1,15 +1,13 @@
 // vector.hpp
-#pragma once
+#if !defined(VECTOR_HPP)
+#define VECTOR_HPP
 
 // used to implement basic vector maths
 struct Vector {
     float x, y, z;
-    Vector() {
-        x = 0;
-        y = 0;
-        z = 0;
-    };
     Vector(float x, float y, float z) : x(x), y(y), z(z){};
+    Vector() : Vector(0, 0, 0) {};
+
     ~Vector() = default;
 
     Vector plus(Vector toAdd) {
@@ -28,3 +26,5 @@ struct Vector {
         return Vector(x * toMul, y * toMul, z * toMul);
     };
 };
+
+#endif

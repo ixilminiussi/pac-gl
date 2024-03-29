@@ -1,8 +1,8 @@
 // main.cpp
-#include "game.cpp"
-#include "pacman.cpp"
-#include "cube.cpp"
 #include <vector>
+
+#include "game.hpp"
+#include "sound.hpp"
 
 #define WIDTH 900
 #define HEIGHT 1280

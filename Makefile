@@ -129,6 +129,78 @@ pac-gl/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/build
 .PHONY : pac-gl/fast
 
+src/cube.o: src/cube.cpp.o
+.PHONY : src/cube.o
+
+# target to build an object file
+src/cube.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/cube.cpp.o
+.PHONY : src/cube.cpp.o
+
+src/cube.i: src/cube.cpp.i
+.PHONY : src/cube.i
+
+# target to preprocess a source file
+src/cube.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/cube.cpp.i
+.PHONY : src/cube.cpp.i
+
+src/cube.s: src/cube.cpp.s
+.PHONY : src/cube.s
+
+# target to generate assembly for a file
+src/cube.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/cube.cpp.s
+.PHONY : src/cube.cpp.s
+
+src/game.o: src/game.cpp.o
+.PHONY : src/game.o
+
+# target to build an object file
+src/game.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/game.cpp.o
+.PHONY : src/game.cpp.o
+
+src/game.i: src/game.cpp.i
+.PHONY : src/game.i
+
+# target to preprocess a source file
+src/game.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/game.cpp.i
+.PHONY : src/game.cpp.i
+
+src/game.s: src/game.cpp.s
+.PHONY : src/game.s
+
+# target to generate assembly for a file
+src/game.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/game.cpp.s
+.PHONY : src/game.cpp.s
+
+src/ghost.o: src/ghost.cpp.o
+.PHONY : src/ghost.o
+
+# target to build an object file
+src/ghost.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/ghost.cpp.o
+.PHONY : src/ghost.cpp.o
+
+src/ghost.i: src/ghost.cpp.i
+.PHONY : src/ghost.i
+
+# target to preprocess a source file
+src/ghost.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/ghost.cpp.i
+.PHONY : src/ghost.cpp.i
+
+src/ghost.s: src/ghost.cpp.s
+.PHONY : src/ghost.s
+
+# target to generate assembly for a file
+src/ghost.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/ghost.cpp.s
+.PHONY : src/ghost.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -153,6 +225,54 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/pacman.o: src/pacman.cpp.o
+.PHONY : src/pacman.o
+
+# target to build an object file
+src/pacman.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/pacman.cpp.o
+.PHONY : src/pacman.cpp.o
+
+src/pacman.i: src/pacman.cpp.i
+.PHONY : src/pacman.i
+
+# target to preprocess a source file
+src/pacman.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/pacman.cpp.i
+.PHONY : src/pacman.cpp.i
+
+src/pacman.s: src/pacman.cpp.s
+.PHONY : src/pacman.s
+
+# target to generate assembly for a file
+src/pacman.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/pacman.cpp.s
+.PHONY : src/pacman.cpp.s
+
+src/sound.o: src/sound.cpp.o
+.PHONY : src/sound.o
+
+# target to build an object file
+src/sound.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/sound.cpp.o
+.PHONY : src/sound.cpp.o
+
+src/sound.i: src/sound.cpp.i
+.PHONY : src/sound.i
+
+# target to preprocess a source file
+src/sound.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/sound.cpp.i
+.PHONY : src/sound.cpp.i
+
+src/sound.s: src/sound.cpp.s
+.PHONY : src/sound.s
+
+# target to generate assembly for a file
+src/sound.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pac-gl.dir/build.make CMakeFiles/pac-gl.dir/src/sound.cpp.s
+.PHONY : src/sound.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,9 +282,24 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... pac-gl"
+	@echo "... src/cube.o"
+	@echo "... src/cube.i"
+	@echo "... src/cube.s"
+	@echo "... src/game.o"
+	@echo "... src/game.i"
+	@echo "... src/game.s"
+	@echo "... src/ghost.o"
+	@echo "... src/ghost.i"
+	@echo "... src/ghost.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/pacman.o"
+	@echo "... src/pacman.i"
+	@echo "... src/pacman.s"
+	@echo "... src/sound.o"
+	@echo "... src/sound.i"
+	@echo "... src/sound.s"
 .PHONY : help
 
 
