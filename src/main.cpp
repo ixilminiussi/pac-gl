@@ -2,8 +2,8 @@
 #include <vector>
 #include <iostream>
 
-#include "../include/game.hpp"
-#include "../include/sound.hpp"
+#include "game.hpp"
+#include "sound.hpp"
 
 constexpr int WIDTH = 900;
 constexpr int HEIGHT = 1280;

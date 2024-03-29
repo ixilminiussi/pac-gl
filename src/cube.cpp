@@ -2,8 +2,8 @@
 #include <GL/freeglut.h>
 #include <vector>
 
-#include "../include/cube.hpp"
-#include "../include/game.hpp"
+#include "cube.hpp"
+#include "game.hpp"
 
 Vector* wallColor = new Vector(0.0f, 0.0f, 1.0f);
 

@@ -1,7 +1,7 @@
 // pacman.cpp
-#include "../include/pacman.hpp"
-#include "../include/sound.hpp"
-#include "../include/game.hpp"
+#include "pacman.hpp"
+#include "sound.hpp"
+#include "game.hpp"
 
 
 Pacman::Pacman() : Cube(Vector(0.0f, 0.0f, 0.0f), Vector(1.3f, 1.3f, 1.3f)) {

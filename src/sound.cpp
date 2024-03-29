@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <iostream>
 
-#include "../include/sound.hpp"
+#include "sound.hpp"
 
 ALuint buffer, source;
 ALint state;

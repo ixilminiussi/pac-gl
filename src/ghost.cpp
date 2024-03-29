@@ -5,10 +5,10 @@
 #include <ctime>
 #include <cmath>
 
-#include "../include/ghost.hpp"
-#include "../include/game.hpp"
-#include "../include/wait.hpp"
-#include "../include/sound.hpp"
+#include "ghost.hpp"
+#include "game.hpp"
+#include "wait.hpp"
+#include "sound.hpp"
 
 
 Ghost::Ghost(Vector pos, Vector* color, float iq) : Cube(pos, Vector(1.4f, 1.4f, 1.4f)), iq(iq) {

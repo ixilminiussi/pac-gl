@@ -1,11 +1,11 @@
 #include <iostream>
 #include <memory>
 
-#include "../include/game.hpp"
-#include "../include/sound.hpp"
-#include "../include/pacman.hpp"
-#include "../include/ghost.hpp"
-#include "../include/wait.hpp"
+#include "game.hpp"
+#include "sound.hpp"
+#include "pacman.hpp"
+#include "ghost.hpp"
+#include "wait.hpp"
 
 /**
  * creates pellets at regular intervals and removes those that collide with a wall
