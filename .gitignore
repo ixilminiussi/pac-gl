@@ -1,10 +1,6 @@
-cmake_install.cmake
-Makefile
-CMakeCache.txt
 build
-CMakeFiles
-pac-gl
 .ccls-cache
+.cache
 
 # Prerequisites
 *.d

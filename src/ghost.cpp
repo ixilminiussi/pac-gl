@@ -5,10 +5,11 @@
 #include <ctime>
 #include <cmath>
 
-#include "ghost.hpp"
-#include "game.hpp"
-#include "wait.hpp"
-#include "sound.hpp"
+#include "../include/ghost.hpp"
+#include "../include/game.hpp"
+#include "../include/wait.hpp"
+#include "../include/sound.hpp"
+
 
 Ghost::Ghost(Vector pos, Vector* color, float iq) : Cube(pos, Vector(1.4f, 1.4f, 1.4f)), iq(iq) {
     Cube::color = color;
@@ -20,7 +21,7 @@ Ghost::Ghost(Vector pos, Vector* color, float iq) : Cube(pos, Vector(1.4f, 1.4f,
 
 void Ghost::die(int score) {
     deadFrame = score;
-    ::render();
+    Labyrinth::getInstance().render();
     respawn();
     wait(1000);
 }
@@ -46,7 +47,6 @@ void Ghost::update() {
     } else {
         color = altColor;
     }
-
 
     // check out of bounds
     if (pos.x + size.x < -11.2f) {
@@ -75,12 +75,14 @@ void Ghost::render() {
 }
 
 bool Ghost::atIntersection() {
-    if (shootRay(Cube(pos, size), dir, 0.1f)) { // impasse
+    Labyrinth &labyrinth = Labyrinth::getInstance();
+
+    if (labyrinth.shootRay(Cube(pos, size), dir, 0.1f)) { // impasse
         return true;
     }
 
     std::pair<DIRECTION, DIRECTION> sides = getSides(dir);
-    if (!shootRay(Cube(pos, size), sides.first, 1.0f) || !shootRay(Cube(pos, size), sides.second, 1.0f)) {
+    if (!labyrinth.shootRay(Cube(pos, size), sides.first, 1.0f) || !labyrinth.shootRay(Cube(pos, size), sides.second, 1.0f)) {
         return true;
     }
 
@@ -88,12 +90,14 @@ bool Ghost::atIntersection() {
 }
 
 DIRECTION Ghost::pickDirection() {
+    Labyrinth &labyrinth = Labyrinth::getInstance();
+
     std::vector<DIRECTION> possibilities = { UP, LEFT, RIGHT, DOWN };
 
     // remove all obstructed directions;
-    for (int i = 3; i > -1; i --) {
-        if (shootRay(Cube(pos, size), possibilities[i], 1.0f)) {
-            possibilities.erase(possibilities.begin() + i);
+    for (auto it = possibilities.end(); it != possibilities.begin(); --it) {
+        if (labyrinth.shootRay(Cube(pos, size), *it, 1.0f)) {
+            possibilities.erase(it);
         }
     }
 
@@ -120,7 +124,7 @@ DIRECTION Ghost::pickDirection() {
             case NONE:
                 return 0.0f;
         }
-        return ((newPos.x - pacman->pos.x) * (newPos.x - pacman->pos.x) + (newPos.y - pacman->pos.y) * (newPos.y - pacman->pos.y));
+        return ((newPos.x - labyrinth.pacman.pos.x) * (newPos.x - labyrinth.pacman.pos.x) + (newPos.y - labyrinth.pacman.pos.y) * (newPos.y - labyrinth.pacman.pos.y));
     };
 
     // if we only have one element, everything next is meaningless

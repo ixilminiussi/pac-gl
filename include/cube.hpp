@@ -8,33 +8,27 @@
 enum DIRECTION { NONE, UP, LEFT, DOWN, RIGHT };
 
 // used for rendering
-struct Cube {
-    Vector* color;
+class Cube {
+    protected:
+        Vector* color;
 
-    Vector pos, size;
+    public: 
+        Vector pos, size;
 
-    Cube(Vector pos, Vector size);
-    ~Cube() = default;
-    void render();
-    bool overlaps(Cube *cube);
+        Cube(Vector const& pos, Vector const& size);
+        ~Cube() = default;
+        void render() const;
+        bool overlaps(Cube const& cube) const;
 };
 
-struct Pellet : Cube {
-    bool picked = false;
-
-    Pellet(Vector pos);
-    ~Pellet() = default;
-    void render();
-    virtual int pickup();
+class Pellet : public Cube {
+    public:
+        unsigned int flag; // 0 for pellet, 1 for powerup
+        Pellet(Vector const& pos, unsigned int flag);
+        ~Pellet() = default;
+        void pickup();
 };
 
-struct PowerUp : Pellet {
-    PowerUp(Vector pos);
-    ~PowerUp() = default;
-    int pickup() override;
-};
-
-bool shootRay(Cube rayCube, DIRECTION dir, float dist);
 DIRECTION getOpposite(DIRECTION dir);
 std::pair<DIRECTION, DIRECTION> getSides(DIRECTION dir);
 #endif

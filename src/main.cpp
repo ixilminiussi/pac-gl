@@ -1,17 +1,21 @@
 // main.cpp
 #include <vector>
+#include <iostream>
 
-#include "game.hpp"
-#include "sound.hpp"
+#include "../include/game.hpp"
+#include "../include/sound.hpp"
 
-#define WIDTH 900
-#define HEIGHT 1280
-#define TITLE "Pacman"
-#define FRAME_TIMER 16 // ~60fps
+constexpr int WIDTH = 900;
+constexpr int HEIGHT = 1280;
+constexpr int FRAME_TIMER = 16; // ~60fps
+
+static const std::string TITLE   = "Pacman";
 
 void display() {
-    render();
-    update();
+    Labyrinth& labyrinth = Labyrinth::getInstance();
+
+    labyrinth.render();
+    labyrinth.update();
 }
 
 void clock(int value) {
@@ -29,7 +33,35 @@ void onReshape(GLsizei width, GLsizei height) {
     gluPerspective(45.0f, aspect, 0.1f, 100.0f);
 }
 
+void onKeyInput(unsigned char key, int x, int y) {
+    Labyrinth& labyrinth = Labyrinth::getInstance();
+
+    switch(key) {
+        case 27:
+            exit(EXIT_SUCCESS);
+            break;
+        case 'z':
+            labyrinth.onKeyInput(GLUT_KEY_UP);
+            break;
+        case 'q':
+            labyrinth.onKeyInput(GLUT_KEY_LEFT);
+            break;
+        case 's':
+            labyrinth.onKeyInput(GLUT_KEY_DOWN);
+            break;
+        case 'd':
+            labyrinth.onKeyInput(GLUT_KEY_RIGHT);
+            break;
+    }
+}
+
+void onSpecialKeyInput(int key, int x, int y) {
+    Labyrinth::getInstance().onKeyInput(key);
+}
+
 void glSettings() {
+    Labyrinth& labyrinth = Labyrinth::getInstance();
+
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClearDepth(1.0f);
     glEnable(GL_DEPTH_TEST);
@@ -42,14 +74,15 @@ void glSettings() {
 
 int main(int argc, char **argv) {
     glutInit(&argc, argv);
+    alutInit();
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
     glutInitWindowSize(WIDTH, HEIGHT);
     glutInitWindowPosition(50, 50);
-    glutCreateWindow(TITLE);
+    glutCreateWindow(TITLE.c_str());
     glutDisplayFunc(display);
     glutReshapeFunc(onReshape);
     glSettings();
-    init();
+    Labyrinth::getInstance().init();
     glutTimerFunc(0, clock, 0);
     glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
     glutMainLoop();

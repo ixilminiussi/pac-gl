@@ -14,7 +14,7 @@ class Ghost : public Cube {
         Vector respawnPos = Vector(-0.7f, -0.1f, 0.0f);
         float speed = 0.05f;
         float iq;
-        int leewayTime = 8; // used for the opposite purpose here
+        int leewayTime = 8;
         int leewayTimer = 0;
         std::vector<DIRECTION> possibilities;
         int deadFrame = 0; // if 0, not in use, else, displays whichever score is held in int

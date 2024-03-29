@@ -1,16 +1,16 @@
 // pacman.cpp
-#include "pacman.hpp"
-#include "sound.hpp"
-#include "game.hpp"
+#include "../include/pacman.hpp"
+#include "../include/sound.hpp"
+#include "../include/game.hpp"
 
-float poweredTime = 1250;
-float poweredTimer = 0;
 
-Pacman::Pacman(Vector pos, void (*restart)(void)) : Cube(pos, Vector(1.3f, 1.3f, 1.3f)), restart(restart) {
+Pacman::Pacman() : Cube(Vector(0.0f, 0.0f, 0.0f), Vector(1.3f, 1.3f, 1.3f)) {
     color = new Vector(1.0f, 0.81f, 0.03f);
 }
 
 void Pacman::update() {
+    Labyrinth &labyrinth = Labyrinth::getInstance();
+
     if (leewayTimer > 0) {
         leewayTimer --;
         tryTurn();
@@ -22,38 +22,30 @@ void Pacman::update() {
     pos += vel * speed;
 
     // check collisions
-    for (Cube* wall : walls) {
+    for (Cube wall : labyrinth.walls) {
         while(overlaps(wall)) {
             pos -= vel * speed;
         }
     }
 
-    for (Pellet* pellet : pellets) {
-        if (overlaps(pellet)) {
-            char* filePath;
-            switch (pellet->pickup()) { // deleting doesnt save much space while making working with the array difficult in other areas of code. true means we are picking up a powerup, false means we are picking up a regular pellet
-                case 0:
-                    break;
-                case 1:
-                    score += 10;
-                    break;
-                case 2:
-                    score += 50;
-                    multiplier = 1;
-                    poweredTimer = poweredTime;
-                    for (Ghost* ghost : ghosts) {
-                        ghost->vulnerable = true;
-                    }
-                    break;
+    for (auto it = labyrinth.pellets.begin(); it != labyrinth.pellets.end(); ++it) {
+        if (overlaps(*it)) {
+            if (it->flag) {
+                score += 50;
+                multiplier += 1;
+                labyrinth.powerup();
+            } else {
+                score += 10;
             }
+            labyrinth.pellets.erase(it);
         }
     }
 
-    for (Ghost* ghost : ghosts) {
+    for (Ghost ghost : labyrinth.ghosts) {
         if (overlaps(ghost)) {
-            if (ghost->vulnerable) {
+            if (ghost.vulnerable) {
                 score += 200 * multiplier;
-                ghost->die(200 * multiplier);
+                ghost.die(200 * multiplier);
                 multiplier *= 2;
             } else {
                 die();
@@ -71,34 +63,40 @@ void Pacman::update() {
     }
 }
 
+void Pacman::spawn() {
+    pos = Vector(-0.65f, -7.0f, 0.0f);
+}
+
 void Pacman::die() {
-    restart();
+    Labyrinth::getInstance().restart();
 }
 
 void Pacman::tryTurn() {
+    Labyrinth &labyrinth = Labyrinth::getInstance();
+
     switch (goalDir) {
         case NONE:
             break;
         case UP:
-            if (!shootRay(Cube(pos, size), UP, 1.0f)) {
+            if (!labyrinth.shootRay(Cube(pos, size), UP, 1.0f)) {
                 dir = UP;
                 vel = Vector(0.0f, 1.0f, 0.0f);
             }
             break;
         case LEFT:
-            if (!shootRay(Cube(pos, size), LEFT, 1.0f)) {
+            if (!labyrinth.shootRay(Cube(pos, size), LEFT, 1.0f)) {
                 dir = LEFT;
                 vel = Vector(-1.0f, 0.0f, 0.0f);
             }
             break;
         case RIGHT:
-            if (!shootRay(Cube(pos, size), RIGHT, 1.0f)) {
+            if (!labyrinth.shootRay(Cube(pos, size), RIGHT, 1.0f)) {
                 dir = RIGHT;
                 vel = Vector(1.0f, 0.0f, 0.0f);
             }
             break;
         case DOWN:
-            if (!shootRay(Cube(pos, size), DOWN, 1.0)) {
+            if (!labyrinth.shootRay(Cube(pos, size), DOWN, 1.0)) {
                 dir = DOWN;
                 vel = Vector(0.0f, -1.0f, 0.0f);
             }

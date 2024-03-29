@@ -3,40 +3,53 @@
 #define GAME_HPP
 
 #include <GL/freeglut.h>
+#include <vector>
 
 #include "vector.hpp"
 #include "pacman.hpp"
 #include "ghost.hpp"
 #include "cube.hpp"
 
-extern Pacman* pacman;
-extern Cube* walls[54];
-extern Pellet* pellets[246]; // INITIALLY this was a vector, and that would work better for a more adaptable code, but arrays have better performance and there is only one level anyways.
-extern Ghost* ghosts[4];
+class Labyrinth {
+    private:
+        Labyrinth() {};
+
+        bool starting, restarting, ending;
+        unsigned int lives = 3;
+        unsigned int score = 0;
+        const float depth = -30.0f;
+        float poweredTime = 1250;
+        float poweredTimer = 0;
 
 
-void populateArea(Vector min, Vector max);
+        void populateArea(Vector min, Vector max);
 
-void restart();
+    public:
+        static Labyrinth& getInstance() {
+            static Labyrinth instance; // Guaranteed to be destroyed.
+            return instance;
+        }
 
-void start();
+        Labyrinth(Labyrinth const&) = delete;
+        void operator=(Labyrinth const&) = delete;
 
-void init();
+        Pacman pacman;
+        std::vector<Cube> walls;
+        std::vector<Pellet> pellets;
+        std::vector<Ghost> ghosts;
 
-void update();
-
-void render();
-
-void onKeyInput(unsigned char key, int x, int y);
-
-void onSpecialKeyInput(int key, int x, int y);
-
-void display();
-
-void glSettings();
-
-void onReshape(GLsizei width, GLsizei height);
-
-void checkWin();
+        void restart();
+        void start();
+        void init();
+        void update();
+        void render();
+        void powerup();
+        bool shootRay(Cube rayCube, DIRECTION dir, float dist);
+        void onKeyInput(int key);
+        void display();
+        void onReshape(GLsizei width, GLsizei height);
+        void endGame();
+        void checkWin();
+};
 
 #endif

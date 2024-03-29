@@ -2,17 +2,17 @@
 #include <GL/freeglut.h>
 #include <vector>
 
-#include "cube.hpp"
-#include "game.hpp"
+#include "../include/cube.hpp"
+#include "../include/game.hpp"
 
-Vector wallColor = Vector(0.0f, 0.0f, 1.0f);
+Vector* wallColor = new Vector(0.0f, 0.0f, 1.0f);
 
-Cube::Cube(Vector pos, Vector size) : pos(pos), size(size) {
-    color = &wallColor;
+Cube::Cube(Vector const& pos, Vector const& size) : pos(pos), size(size) {
+    color = wallColor;
 };
 
 // render
-void Cube::render() {
+void Cube::render() const {
     Vector min = pos;
     Vector max = pos + size;
     glBegin(GL_QUADS);
@@ -49,76 +49,27 @@ void Cube::render() {
     glEnd();
 }
 
-bool Cube::overlaps(Cube *cube) {
+bool Cube::overlaps(Cube const& cube) const {
     // assumes 2d world, omitting z axis from collision
     return (
-            pos.x < cube->pos.x + cube->size.x &&
-            pos.x + size.x > cube->pos.x &&
-            pos.y < cube->pos.y + cube->size.y &&
-            pos.y + size.y > cube->pos.y
+            pos.x < cube.pos.x + cube.size.x &&
+            pos.x + size.x > cube.pos.x &&
+            pos.y < cube.pos.y + cube.size.y &&
+            pos.y + size.y > cube.pos.y
             );
 }
 
 Vector pelletColor = Vector(1.0f, 0.72f, 0.59f);
 
-Pellet::Pellet(Vector pos) : Cube(pos, Vector(0.2f, 0.2f, 0.2f)) {
+Pellet::Pellet(Vector const& pos, unsigned int flag) : Cube(pos, Vector(0.2f, 0.2f, 0.2f)), flag(flag) {
     color = &pelletColor;
-}
-
-void Pellet::render() {
-    if (!picked) {
-        Cube::render();
+    if (flag) {
+        size = Vector(0.8f, 0.8f, 0.8f);
     }
 }
 
-int Pellet::pickup() {
-    if (picked) return 0;
-
-    picked = true;
-    checkWin();
-    return 1;
-}
-
-PowerUp::PowerUp(Vector pos) : Pellet(pos) {
-    size = Vector(0.8f, 0.8f, 0.8f);
-}
-
-int PowerUp::pickup() {
-    if (picked) return 0;
-
-    picked = true;
-    checkWin();
-    return 2;
-}
-
-bool shootRay(Cube rayCube, DIRECTION dir, float dist) {
-    switch(dir) {
-        case NONE:
-            return false;
-            break;
-        case UP:
-            rayCube.pos.y += dist;
-            break;
-        case LEFT:
-            rayCube.pos.x -= dist;
-            rayCube.size.x += dist;
-            break;
-        case RIGHT:
-            rayCube.size.x += dist;
-            break;
-        case DOWN:
-            rayCube.pos.y -= dist;
-            rayCube.size.y += dist;
-            break;
-    }
-
-    for (Cube* wall : walls) {
-        if (rayCube.overlaps(wall)) {
-            return true;
-        }
-    }
-
-    return false;
+void Pellet::pickup() {
+    delete this;
 }
 
 DIRECTION getOpposite(DIRECTION dir) {
