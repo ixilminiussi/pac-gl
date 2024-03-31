@@ -2,6 +2,10 @@
 a pacman clone made in openGL
 
 ## Dependencies
+```
+sudo apt install freeglut3-dev libopenal-dev libalut-dev
+```
+Alternatively, you can build from source
 ### freealut
 ```
 $ git clone https://github.com/vancegroup/freealut.git

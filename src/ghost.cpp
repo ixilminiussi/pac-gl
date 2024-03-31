@@ -102,7 +102,10 @@ DIRECTION Ghost::pickDirection() {
 
     // if we have more than one direction left, remove backtracking
     if (possibilities.size() > 1) {
-        possibilities.erase(std::find(possibilities.begin(), possibilities.end(), getOpposite(dir)));
+        auto found = std::find(possibilities.begin(), possibilities.end(), getOpposite(dir));
+        if (found != possibilities.end()) {
+            possibilities.erase(found);
+        }
     }
 
     auto calcDistance = [&](DIRECTION dir1) {
