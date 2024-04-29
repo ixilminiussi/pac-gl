@@ -299,7 +299,6 @@ void Labyrinth::endGame() {
 }
 
 void Labyrinth::checkWin() {
-    std::cout << "checkwin" << std::endl;
     if (pellets.size() == 0) { endGame(); }
 }
 
